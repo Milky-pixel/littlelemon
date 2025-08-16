@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Little Lemon Booking Form</title>
+  <style>
+    body, html {
+      margin: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      background-color: #fffbea;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      color: #333;
+    }
+    header, footer {
+      width: 100%;
+      background-color: #FCD688;
+      color: #3E3E3E;
+      text-align: center;
+      padding: 1em 0;
+      font-weight: bold;
+      font-size: 1.2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      user-select: none;
+    }
+    header span.lemon {
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+      vertical-align: middle;
+    }
+    main {
+      margin: 2em 0;
+      width: 320px;
+      background: white;
+      padding: 1.5em 2em;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    form div {
+      margin-bottom: 1em;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.4em;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    .error {
+      color: red;
+      font-size: 0.9em;
+      margin-top: 0.2em;
+      display: block;
+    }
+    button {
+      background-color: #FCD688;
+      border: none;
+      width: 100%;
+      padding: 10px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.25s ease;
+    }
+    button:hover {
+      background-color: #e6c05e;
+    }
+    #confirmationMessage {
+      margin-top: 1.5em;
+      font-weight: bold;
+      color: #2d7a0b;
+      min-height: 1.3em;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <span class="lemon" aria-hidden="true">🍋</span> Little Lemon Reservations
+  </header>
+
+  <main>
+    <h1>Book a Table</h1>
+    <form aria-label="Table booking form" id="bookingForm" onsubmit="return validateForm()">
+      <div>
+        <label for="name">Name:</label>
+        <input id="name" name="name" type="text" aria-required="true" />
+        <span id="nameError" class="error"></span>
+      </div>
+      <div>
+        <label for="email">Email:</label>
+        <input id="email" name="email" type="email" aria-required="true" />
+        <span id="emailError" class="error"></span>
+      </div>
+      <div>
+        <label for="date">Date:</label>
+        <input id="date" name="date" type="date" aria-required="true" />
+        <span id="dateError" class="error"></span>
+      </div>
+      <div>
+        <label for="time">Time:</label>
+        <input id="time" name="time" type="time" aria-required="true" />
+        <span id="timeError" class="error"></span>
+      </div>
+      <div>
+        <label for="guests">Number of guests:</label>
+        <input id="guests" name="guests" type="number" min="1" max="20" aria-required="true" />
+        <span id="guestsError" class="error"></span>
+      </div>
+      <button type="submit">Book Table</button>
+    </form>
+    <section id="confirmationMessage" aria-live="polite"></section>
+  </main>
+
+  <footer>
+    &copy; Little Lemon 2025
+  </footer>
+
+  <script>
+    function validateForm() {
+      let valid = true;
+      const name = document.getElementById("name");
+      const email = document.getElementById("email");
+      const date = document.getElementById("date");
+      const time = document.getElementById("time");
+      const guests = document.getElementById("guests");
+
+      document.getElementById("nameError").textContent = "";
+      document.getElementById("emailError").textContent = "";
+      document.getElementById("dateError").textContent = "";
+      document.getElementById("timeError").textContent = "";
+      document.getElementById("guestsError").textContent = "";
+      document.getElementById("confirmationMessage").textContent = "";
+
+      if (!name.value.trim()) {
+        document.getElementById("nameError").textContent = "Name is required";
+        valid = false;
+      }
+      if (!email.value.trim()) {
+        document.getElementById("emailError").textContent = "Email is required";
+        valid = false;
+      }
+      if (!date.value) {
+        document.getElementById("dateError").textContent = "Date is required";
+        valid = false;
+      }
+      if (!time.value) {
+        document.getElementById("timeError").textContent = "Time is required";
+        valid = false;
+      }
+      if (!guests.value || guests.value < 1) {
+        document.getElementById("guestsError").textContent = "At least 1 guest required";
+        valid = false;
+      }
+
+      if (valid) {
+        const confirmation = `Thank you, ${name.value}, for booking a table on ${date.value} at ${time.value} for ${guests.value} guest(s).`;
+        document.getElementById("confirmationMessage").textContent = confirmation;
+        document.getElementById("bookingForm").reset();
+        return false;  // Prevent actual form submission for demo
+      }
+      return false; // prevent submission if invalid
+    }
+  </script>
+</body>
+</html>
